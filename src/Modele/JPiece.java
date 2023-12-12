@@ -1,7 +1,7 @@
 package Modele;
 
 public class JPiece extends Piece{
-    public JPiece(SimpleGrid _grid) {
+    public JPiece(GrilleJeu _grid) {
         super(_grid, new boolean[][]{
                         {false, false, true, false},
                         {false, false, true, false},

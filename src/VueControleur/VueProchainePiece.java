@@ -1,7 +1,7 @@
 package VueControleur;
 
 import Modele.Couleur;
-import Modele.SimpleGrid;
+import Modele.GrilleJeu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,16 +12,14 @@ import java.util.Observer;
 class VueProchainePiece extends JPanel implements Observer {
 
     private final static int TAILLE = 16;
-    private SimpleGrid grid;
+    private GrilleJeu grille;
     Canvas c;
 
-    public VueProchainePiece(SimpleGrid _modele) {
+    public VueProchainePiece(GrilleJeu _modele) {
 
-        grid = _modele;
+        grille = _modele;
         setLayout(new BorderLayout());
-        int width = TAILLE * 4 ;
-        int height = TAILLE * 4 ;
-        Dimension dim = new Dimension(width,height);
+        Dimension dim = new Dimension( TAILLE * 4, TAILLE * 4);
         this.setPreferredSize(dim);
 
 
@@ -36,7 +34,6 @@ class VueProchainePiece extends JPanel implements Observer {
                 g.setColor(Color.darkGray);
                 g.fillRect(0, 0, getWidth(), getHeight());
 
-                //add space before the grid
 
 
 
@@ -53,16 +50,16 @@ class VueProchainePiece extends JPanel implements Observer {
                 }
 
 
-                if (grid.getProchainePiecePiece().getCouleur()== Couleur.RED) g.setColor(Color.RED);
-                if (grid.getProchainePiecePiece().getCouleur()== Couleur.BLUE) g.setColor(Color.BLUE);
-                if (grid.getProchainePiecePiece().getCouleur()== Couleur.ORANGE) g.setColor(Color.ORANGE);
-                if (grid.getProchainePiecePiece().getCouleur()== Couleur.MAGENTA) g.setColor(Color.MAGENTA);
-                if (grid.getProchainePiecePiece().getCouleur()== Couleur.CYAN) g.setColor(Color.CYAN);
-                if (grid.getProchainePiecePiece().getCouleur()== Couleur.PINK) g.setColor(Color.PINK);
-                if (grid.getProchainePiecePiece().getCouleur()== Couleur.YELLOW) g.setColor(Color.YELLOW);
+                if (grille.getProchainePiecePiece().getCouleur()== Couleur.RED) g.setColor(Color.RED);
+                if (grille.getProchainePiecePiece().getCouleur()== Couleur.BLUE) g.setColor(Color.BLUE);
+                if (grille.getProchainePiecePiece().getCouleur()== Couleur.ORANGE) g.setColor(Color.ORANGE);
+                if (grille.getProchainePiecePiece().getCouleur()== Couleur.MAGENTA) g.setColor(Color.MAGENTA);
+                if (grille.getProchainePiecePiece().getCouleur()== Couleur.CYAN) g.setColor(Color.CYAN);
+                if (grille.getProchainePiecePiece().getCouleur()== Couleur.PINK) g.setColor(Color.PINK);
+                if (grille.getProchainePiecePiece().getCouleur()== Couleur.YELLOW) g.setColor(Color.YELLOW);
                 for (int i=0; i<4; i++) {
                     for (int j=0; j<4; j++) {
-                        if (grid.getProchainePiecePiece().getShape()[i][j])
+                        if (grille.getProchainePiecePiece().getShape()[i][j])
 
                             g.fillRect((i) * TAILLE, (j) * TAILLE, TAILLE, TAILLE);
                     }

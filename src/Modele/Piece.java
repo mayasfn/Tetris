@@ -9,10 +9,10 @@ public class Piece implements Runnable {
     private int y = -5;
     private int dY = 1;
     private Couleur couleur;
-    private SimpleGrid grid;
+    private GrilleJeu grille;
 
-    public Piece(SimpleGrid _grid, boolean [][] _shape,Couleur _color) {
-        grid= _grid;
+    public Piece(GrilleJeu _grid, boolean [][] _shape,Couleur _color) {
+        grille= _grid;
         shape = _shape;
         couleur = _color;
     }
@@ -27,13 +27,13 @@ public class Piece implements Runnable {
 
         nextY += dY;
 
-        if (grid.validationPosition(nextX, nextY)) {
+        if (grille.validationPosition(nextX, nextY)) {
             this.y = nextY;
             this.x = nextX;
 
         } else {
-            grid.fige_piece();
-            grid.ligne_complete();
+            grille.fige_piece();
+            grille.ligne_complete();
 
         }
 
@@ -44,7 +44,7 @@ public class Piece implements Runnable {
 
         int nextX = this.x;
         nextX += 1;
-        if (grid.validationPosition(nextX, this.y)) {
+        if (grille.validationPosition(nextX, this.y)) {
             this.x = nextX;
 
         }
@@ -54,7 +54,7 @@ public class Piece implements Runnable {
 
         int nextX = this.x;
         nextX -= 1;
-        if (grid.validationPosition(nextX, y)) {
+        if (grille.validationPosition(nextX, y)) {
 
             this.x = nextX;
 
@@ -65,7 +65,7 @@ public class Piece implements Runnable {
     public void move_down(){
         int nextY= this.y;
         nextY +=2;
-        if(grid.validationPosition(this.x, nextY)){
+        if(grille.validationPosition(this.x, nextY)){
             this.y=nextY;
         }
 
@@ -78,7 +78,7 @@ public class Piece implements Runnable {
                 nouvelle_piece[i][j]=shape[4 - 1 -j][i];
             }
         }
-        if (grid.validationPositionRotation(this.x, this.y, nouvelle_piece)) shape = nouvelle_piece;
+        if (grille.validationPositionRotation(this.x, this.y, nouvelle_piece)) shape = nouvelle_piece;
 
     }
 

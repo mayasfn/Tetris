@@ -6,10 +6,10 @@ import java.util.Random;
 import VueControleur.Sound;
 
 
-public class SimpleGrid extends Observable implements Runnable {
+public class GrilleJeu extends Observable implements Runnable {
     private Sound deletelineSound;
     public final int TAILLE = 20;
-    private Piece currentPiece;
+    private Piece PieceCourante;
     private Piece prochainePiece;
     private int score = 0;
     private Piece [] piece_types = new Piece [7];
@@ -18,15 +18,8 @@ public class SimpleGrid extends Observable implements Runnable {
     private boolean perdu=false;
     public boolean paused = false;
 
-    public boolean isPaused() {
-        return paused;
-    }
 
-    public void setPaused(boolean paused){
-        this.paused=paused;
-    }
-
-    public SimpleGrid() {
+    public GrilleJeu() {
         String projectRoot = System.getProperty("user.dir");
         deletelineSound = new Sound(projectRoot+ "/src/VueControleur/clear.wav");
 
@@ -42,7 +35,7 @@ public class SimpleGrid extends Observable implements Runnable {
         int randompiece = random.nextInt(7);
         this.prochainePiece = piece_types[randompiece];
         remplir_Grille();
-        attribute_piecetype();
+        attribuer_piecetype();
         new OrdonnanceurSimple(this).start();
     }
 
@@ -56,11 +49,11 @@ public class SimpleGrid extends Observable implements Runnable {
 
 
     //Function that randomly picks a piece type to be our current piece
-    public void attribute_piecetype() {
+    public void attribuer_piecetype() {
 
-        this.currentPiece = this.prochainePiece;
-        this.currentPiece.setX(8);
-        this.currentPiece.setY(-5);
+        this.PieceCourante = this.prochainePiece;
+        this.PieceCourante.setX(8);
+        this.PieceCourante.setY(-5);
         //Pick a random number between 0 and 6 (inclusive) to pick a random piece type
 
         Random random = new Random();
@@ -75,7 +68,7 @@ public class SimpleGrid extends Observable implements Runnable {
 
     }
 
-    public boolean checkCollision(int _nextX, int _nextY, boolean tab[][]) {
+    public boolean verifieCollision(int _nextX, int _nextY, boolean tab[][]) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (tab[i][j]) {
@@ -105,7 +98,7 @@ public class SimpleGrid extends Observable implements Runnable {
         for (int i = 0; i < 4 ; i++) {
             if (!position_valideX || !position_valideY) break;
             for (int j = 0; j < 4; j++) {
-                if (currentPiece.shape[i][j]) {
+                if (PieceCourante.shape[i][j]) {
                     positionX_absolu = _nextX +i;
                     positionY_absolu = _nextY + j;
                     if (positionY_absolu >= TAILLE) position_valideY = false;
@@ -115,7 +108,7 @@ public class SimpleGrid extends Observable implements Runnable {
             }
         }
 
-        return (position_valideX && position_valideY && !checkCollision(_nextX,_nextY, currentPiece.getShape()))  ;
+        return (position_valideX && position_valideY && !verifieCollision(_nextX,_nextY, PieceCourante.getShape()))  ;
     }
 
 
@@ -139,7 +132,7 @@ public class SimpleGrid extends Observable implements Runnable {
                 }
             }
         }
-        if (checkCollision(_nextX,_nextY, tab)) return  false;
+        if (verifieCollision(_nextX,_nextY, tab)) return  false;
         return (position_valideX && position_valideY);
     }
 
@@ -148,39 +141,28 @@ public class SimpleGrid extends Observable implements Runnable {
 
     public void run() {
         if (!paused) {
-            currentPiece.run();
+            PieceCourante.run();
             setChanged(); // setChanged() + notifyObservers() : notification de la vue pour le rafraichissement
             notifyObservers();
 
         }
     }
 
-    public Piece getcurrentPiece() {
-        return currentPiece;
-    }
-
-    public Piece getProchainePiecePiece() {
-        return prochainePiece;
-    }
-
-    public Couleur getGrille_couleur(int i, int j) {
-        return this.grille_couleur[i][j];
-    }
 
 
     public void fige_piece() {
         for (int i=0; i<4;i++) {
             for (int j=0; j<4; j++) {
-                int Xabsolu = currentPiece.getx() +i;
-                int Yabsolu = currentPiece.gety() + j;
-                 if (Xabsolu >=0 && Xabsolu <= TAILLE && Yabsolu <= TAILLE && currentPiece.shape[i][j]) grille_couleur[Xabsolu][Yabsolu] = currentPiece.getCouleur();
+                int Xabsolu = PieceCourante.getx() +i;
+                int Yabsolu = PieceCourante.gety() + j;
+                 if (Xabsolu >=0 && Xabsolu <= TAILLE && Yabsolu <= TAILLE && PieceCourante.shape[i][j]) grille_couleur[Xabsolu][Yabsolu] = PieceCourante.getCouleur();
             }
         }
 
-        if (currentPiece.gety() <= 0)
+        if (PieceCourante.gety() <= 0)
         {
             perdu = true;
-        } else   attribute_piecetype();
+        } else   attribuer_piecetype();
 
 
 
@@ -266,10 +248,10 @@ public class SimpleGrid extends Observable implements Runnable {
         this.prochainePiece = piece_types[randompiece];
         //this.prochainePiece.setX(8);
         //this.prochainePiece.setY(-5);
-        attribute_piecetype();
+        attribuer_piecetype();
     }
-    public void setCurrentPiece(Piece _currentPiece) {
-        this.currentPiece = _currentPiece;
+    public void setPieceCourante(Piece _currentPiece) {
+        this.PieceCourante = _currentPiece;
     }
 
     public void setPerdu(boolean perdu) {
@@ -277,6 +259,27 @@ public class SimpleGrid extends Observable implements Runnable {
     }
     public boolean getPerdu() {
         return this.perdu;
+    }
+    public Piece getPieceCourante() {
+        return PieceCourante;
+    }
+
+    public Piece getProchainePiecePiece() {
+        return prochainePiece;
+    }
+
+    public Couleur getGrille_couleur(int i, int j) {
+        return this.grille_couleur[i][j];
+    }
+
+
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused){
+        this.paused=paused;
     }
 }
 

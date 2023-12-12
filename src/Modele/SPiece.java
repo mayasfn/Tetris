@@ -4,7 +4,7 @@ package Modele;
 
 public class SPiece extends Piece {
 
-    public SPiece(SimpleGrid _grid) {
+    public SPiece(GrilleJeu _grid) {
         super(_grid, new boolean[][]{
                 {false, true, false, false},
                 {false, true, true, false},

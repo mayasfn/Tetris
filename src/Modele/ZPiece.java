@@ -3,7 +3,7 @@ package Modele;
 
 public class ZPiece extends Piece {
 
-    public ZPiece(SimpleGrid _grid) {
+    public ZPiece(GrilleJeu _grid) {
         super(_grid, new boolean[][]{
                         {false, false, true, false},
                         {false, true, true, false},

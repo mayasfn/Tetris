@@ -3,7 +3,7 @@ package Modele;
 
 public class TPiece extends Piece {
 
-    public TPiece(SimpleGrid _grid) {
+    public TPiece(GrilleJeu _grid) {
         super(_grid, new boolean[][]{
                 {false, true, true, true},
                 {false, false, true, false},

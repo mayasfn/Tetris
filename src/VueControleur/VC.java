@@ -1,7 +1,7 @@
 package VueControleur;
 
 import Modele.Couleur;
-import Modele.SimpleGrid;
+import Modele.GrilleJeu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,7 @@ public class VC extends JFrame implements Observer {
 
     JLabel prochainePiece = new JLabel("<html><div style='text-align: center; font-size: 15; '> <font color=red> Prochaine piece:  </font></div></html>");
 
-    SimpleGrid grille;
+    GrilleJeu grille;
 
     Observer vueGrille;
     Observer prochPieceGrille;
@@ -44,7 +44,7 @@ public class VC extends JFrame implements Observer {
 
 
 
-    public VC(SimpleGrid _modele) {
+    public VC(GrilleJeu _modele) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         grille = _modele;
 
@@ -128,7 +128,7 @@ public class VC extends JFrame implements Observer {
                 if (!jeuCommencé) {
                     grille.remplir_Grille();
                     lastTime = 0; // Reset time when the game starts
-                    grille.attribute_piecetype();
+                    grille.attribuer_piecetype();
                     vueGrille.update(null, null);
                     prochPieceGrille.update(null, null);
                     jeuCommencé = true;
@@ -183,7 +183,7 @@ public class VC extends JFrame implements Observer {
         Action rotateAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grille.getcurrentPiece().rotation();
+                grille.getPieceCourante().rotation();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "rotate");
@@ -192,7 +192,7 @@ public class VC extends JFrame implements Observer {
         Action moveLeftAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grille.getcurrentPiece().move_left();
+                grille.getPieceCourante().move_left();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveLeft");
@@ -201,7 +201,7 @@ public class VC extends JFrame implements Observer {
         Action moveRightAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grille.getcurrentPiece().move_right();
+                grille.getPieceCourante().move_right();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveRight");
@@ -210,7 +210,7 @@ public class VC extends JFrame implements Observer {
         Action moveDownAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grille.getcurrentPiece().move_down();
+                grille.getPieceCourante().move_down();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "moveDown");
@@ -228,7 +228,7 @@ public class VC extends JFrame implements Observer {
                 grille.setPaused(false);
                 BoutonPause.setText("Pause");
                 grille.remplir_Grille();
-                grille.setCurrentPiece(grille.getProchainePiecePiece());
+                grille.setPieceCourante(grille.getProchainePiecePiece());
                 grille.resetgrid();
                // grille.attribute_piecetype();
                 grille.setPerdu(false);
@@ -283,7 +283,7 @@ public class VC extends JFrame implements Observer {
         SwingUtilities.invokeLater(new Runnable() {
 
                                        public void run() {
-                                           SimpleGrid m = new SimpleGrid();
+                                           GrilleJeu m = new GrilleJeu();
                                            VC vc = new VC(m);
                                            vc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                            m.addObserver(vc);
