@@ -12,10 +12,10 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import javax.swing.JOptionPane;
 
 public class VC extends JFrame implements Observer {
     boolean gameStarted = false;
-
 
     JLabel temps = new JLabel("Elapsed time : 0 ms");
 
@@ -30,7 +30,7 @@ public class VC extends JFrame implements Observer {
 
     JLabel score = new JLabel("<html><div style='text-align: center; font-size: 15; '>  <font color=red> SCORE : 0 </font> </div></html>");
 
-    JLabel prochainePiece = new JLabel("<html><div style='text-align: center; font-size: 15; '> Prochaine piece: </div></html>");
+    JLabel prochainePiece = new JLabel("<html><div style='text-align: center; font-size: 15; '> <font color=red> Prochaine piece:  </font></div></html>");
 
     SimpleGrid grid;
 
@@ -40,7 +40,8 @@ public class VC extends JFrame implements Observer {
     KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
     private JButton startButton, pauseButton, quitButton;
     JPanel mainPanel = new JPanel(new BorderLayout());
-    
+    private boolean fenetrePerdu = false;
+
 
 
     public VC(SimpleGrid _modele) {
@@ -110,9 +111,6 @@ public class VC extends JFrame implements Observer {
 
         mainPanel.add(buttonPanel,BorderLayout.SOUTH);
 
-        startButton.setBackground(Color.BLUE);
-        startButton.setPreferredSize(new Dimension(70,40));
-
         registerKeyBindings();
 
         setContentPane(mainPanel);
@@ -120,6 +118,7 @@ public class VC extends JFrame implements Observer {
         requestFocusInWindow();
 
         registerKeyBindings();
+
 
 
         startButton.addActionListener(new ActionListener() {
@@ -169,6 +168,18 @@ public class VC extends JFrame implements Observer {
 
     }
 
+    public void Perdu() {
+        if (grid.getPerdu() && !fenetrePerdu) {
+            fenetrePerdu = true;
+            grid.setPerdu(false);
+            JOptionPane.showMessageDialog(this, "¨Perdu!", "Perdu!", JOptionPane.INFORMATION_MESSAGE);
+            reset();
+            fenetrePerdu = false;
+
+
+        }
+
+    }
 
     private void registerKeyBindings() {
         InputMap inputMap = mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -216,13 +227,17 @@ public class VC extends JFrame implements Observer {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+
                 gameStarted=false;
+               //fenetrePerdu = false;
+
                 grid.setPaused(false);
                 pauseButton.setText("Pause");
                 grid.remplir_Grille();
                 grid.setCurrentPiece(grid.getProchainePiecePiece());
                 grid.resetgrid();
                // grid.attribute_piecetype();
+                grid.setPerdu(false);
                 gridView.update(null, null);
                 prochPieceGrille.update(null, null);
                 startButton.setEnabled(true);
@@ -242,8 +257,12 @@ public class VC extends JFrame implements Observer {
             public void run() {
                 if (gameStarted) {
 
+
                     gridView.update(o, arg);
                     prochPieceGrille.update(null, null);
+                    Perdu();
+                    gridView.update(o, arg);
+
 
                     score.setText("<html><div style='text-align: center; font-size: 15;'> <font color=red> SCORE : " +
 

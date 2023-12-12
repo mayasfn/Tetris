@@ -15,6 +15,7 @@ public class SimpleGrid extends Observable implements Runnable {
     private Piece [] piece_types = new Piece [7];
     private Couleur grille_couleur[][] = new Couleur[20][20];
 
+    private boolean perdu=false;
     public boolean paused = false;
 
     public boolean isPaused() {
@@ -94,6 +95,7 @@ public class SimpleGrid extends Observable implements Runnable {
         return false; // No collision detected
     }
 
+
     public boolean validationPosition(int _nextX, int _nextY) {
         boolean position_valideY = true;
         boolean position_valideX = true;
@@ -115,6 +117,7 @@ public class SimpleGrid extends Observable implements Runnable {
 
         return (position_valideX && position_valideY && !checkCollision(_nextX,_nextY, currentPiece.getShape()))  ;
     }
+
 
 
     public boolean validationPositionRotation(int _nextX, int _nextY, boolean tab[][]) {
@@ -174,10 +177,10 @@ public class SimpleGrid extends Observable implements Runnable {
             }
         }
 
-        //this.currentPiece = this.prochainePiece;
-        //this.currentPiece.setX(8);
-        //this.currentPiece.setY(-5);
-        attribute_piecetype();
+        if (currentPiece.gety() <= 0)
+        {
+            perdu = true;
+        } else   attribute_piecetype();
 
 
 
@@ -268,4 +271,12 @@ public class SimpleGrid extends Observable implements Runnable {
     public void setCurrentPiece(Piece _currentPiece) {
         this.currentPiece = _currentPiece;
     }
+
+    public void setPerdu(boolean perdu) {
+        this.perdu = perdu;
+    }
+    public boolean getPerdu() {
+        return this.perdu;
+    }
 }
+
