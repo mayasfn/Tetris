@@ -12,16 +12,14 @@ import java.util.Observer;
 class VueGrilleV2 extends JPanel implements Observer {
 
     private final static int TAILLE = 16;
-    private SimpleGrid grid;
+    private SimpleGrid grille;
     Canvas c;
 
     public VueGrilleV2(SimpleGrid _modele) {
 
-        grid = _modele;
+        grille = _modele;
         setLayout(new BorderLayout());
-        int width = TAILLE * grid.TAILLE ;
-        int height = TAILLE * grid.TAILLE ;
-        Dimension dim = new Dimension(width,height);
+        Dimension dim = new Dimension(TAILLE * grille.TAILLE,TAILLE * grille.TAILLE);
         this.setPreferredSize(dim);
 
 
@@ -45,17 +43,17 @@ class VueGrilleV2 extends JPanel implements Observer {
                 int extra_y = 4;
 
 
-                for (int i = 0; i < grid.TAILLE; i++) {
-                    for (int j = 0; j < grid.TAILLE; j++) {
+                for (int i = 0; i < grille.TAILLE; i++) {
+                    for (int j = 0; j < grille.TAILLE; j++) {
 
-                        if (grid.getGrille_couleur(i,j) == Couleur.VIDE) g.setColor(Color.darkGray);
-                        if (grid.getGrille_couleur(i,j)== Couleur.RED) g.setColor(Color.RED);
-                        if (grid.getGrille_couleur(i,j)== Couleur.BLUE) g.setColor(Color.BLUE);
-                        if (grid.getGrille_couleur(i,j)== Couleur.ORANGE) g.setColor(Color.ORANGE);
-                        if (grid.getGrille_couleur(i,j)== Couleur.MAGENTA) g.setColor(Color.MAGENTA);
-                        if (grid.getGrille_couleur(i,j)== Couleur.CYAN) g.setColor(Color.CYAN);
-                        if (grid.getGrille_couleur(i,j)== Couleur.PINK) g.setColor(Color.PINK);
-                        if (grid.getGrille_couleur(i,j)== Couleur.YELLOW) g.setColor(Color.YELLOW);
+                        if (grille.getGrille_couleur(i,j) == Couleur.VIDE) g.setColor(Color.darkGray);
+                        if (grille.getGrille_couleur(i,j)== Couleur.RED) g.setColor(Color.RED);
+                        if (grille.getGrille_couleur(i,j)== Couleur.BLUE) g.setColor(Color.BLUE);
+                        if (grille.getGrille_couleur(i,j)== Couleur.ORANGE) g.setColor(Color.ORANGE);
+                        if (grille.getGrille_couleur(i,j)== Couleur.MAGENTA) g.setColor(Color.MAGENTA);
+                        if (grille.getGrille_couleur(i,j)== Couleur.CYAN) g.setColor(Color.CYAN);
+                        if (grille.getGrille_couleur(i,j)== Couleur.PINK) g.setColor(Color.PINK);
+                        if (grille.getGrille_couleur(i,j)== Couleur.YELLOW) g.setColor(Color.YELLOW);
                         g.fillRect((i+extra_x) * TAILLE, (j+extra_y) * TAILLE, TAILLE, TAILLE);
                         g.setColor(Color.white);
                         g.drawRoundRect((i+extra_x) * TAILLE, (j+extra_y) * TAILLE, TAILLE, TAILLE, 1, 1);
@@ -65,18 +63,18 @@ class VueGrilleV2 extends JPanel implements Observer {
                 }
 
 
-                if (grid.getcurrentPiece().getCouleur()== Couleur.RED) g.setColor(Color.RED);
-                if (grid.getcurrentPiece().getCouleur()== Couleur.BLUE) g.setColor(Color.BLUE);
-                if (grid.getcurrentPiece().getCouleur()== Couleur.ORANGE) g.setColor(Color.ORANGE);
-                if (grid.getcurrentPiece().getCouleur()== Couleur.MAGENTA) g.setColor(Color.MAGENTA);
-                if (grid.getcurrentPiece().getCouleur()== Couleur.CYAN) g.setColor(Color.CYAN);
-                if (grid.getcurrentPiece().getCouleur()== Couleur.PINK) g.setColor(Color.PINK);
-                if (grid.getcurrentPiece().getCouleur()== Couleur.YELLOW) g.setColor(Color.YELLOW);
+                if (grille.getcurrentPiece().getCouleur()== Couleur.RED) g.setColor(Color.RED);
+                if (grille.getcurrentPiece().getCouleur()== Couleur.BLUE) g.setColor(Color.BLUE);
+                if (grille.getcurrentPiece().getCouleur()== Couleur.ORANGE) g.setColor(Color.ORANGE);
+                if (grille.getcurrentPiece().getCouleur()== Couleur.MAGENTA) g.setColor(Color.MAGENTA);
+                if (grille.getcurrentPiece().getCouleur()== Couleur.CYAN) g.setColor(Color.CYAN);
+                if (grille.getcurrentPiece().getCouleur()== Couleur.PINK) g.setColor(Color.PINK);
+                if (grille.getcurrentPiece().getCouleur()== Couleur.YELLOW) g.setColor(Color.YELLOW);
                 for (int i=0; i<4; i++) {
                     for (int j=0; j<4; j++) {
-                        if (grid.getcurrentPiece().getShape()[i][j])
+                        if (grille.getcurrentPiece().getShape()[i][j])
 
-                            g.fillRect((grid.getcurrentPiece().getx() +i + extra_x) * TAILLE, (grid.getcurrentPiece().gety()+j+ extra_y) * TAILLE, TAILLE, TAILLE);
+                            g.fillRect((grille.getcurrentPiece().getx() +i + extra_x) * TAILLE, (grille.getcurrentPiece().gety()+j+ extra_y) * TAILLE, TAILLE, TAILLE);
                     }
                 }
 

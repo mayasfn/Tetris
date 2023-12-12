@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 import javax.swing.JOptionPane;
 
 public class VC extends JFrame implements Observer {
-    boolean gameStarted = false;
+    boolean jeuCommencé = false;
 
     JLabel temps = new JLabel("Elapsed time : 0 ms");
 
@@ -32,13 +32,13 @@ public class VC extends JFrame implements Observer {
 
     JLabel prochainePiece = new JLabel("<html><div style='text-align: center; font-size: 15; '> <font color=red> Prochaine piece:  </font></div></html>");
 
-    SimpleGrid grid;
+    SimpleGrid grille;
 
-    Observer gridView;
+    Observer vueGrille;
     Observer prochPieceGrille;
     private Executor ex =  Executors.newSingleThreadExecutor();
     KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-    private JButton startButton, pauseButton, quitButton;
+    private JButton BoutonDemarrer, BoutonPause, BoutonQuitter;
     JPanel mainPanel = new JPanel(new BorderLayout());
     private boolean fenetrePerdu = false;
 
@@ -46,7 +46,7 @@ public class VC extends JFrame implements Observer {
 
     public VC(SimpleGrid _modele) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        grid = _modele;
+        grille = _modele;
 
         setSize(700, 600);
         setResizable(false);
@@ -69,12 +69,12 @@ public class VC extends JFrame implements Observer {
         centre.setBackground(Color.darkGray);
 
         //ajout grille
-        gridView = new VueGrilleV2(grid);
-        mainPanel.add((JPanel) gridView, BorderLayout.CENTER);
+        vueGrille = new VueGrilleV2(grille);
+        mainPanel.add((JPanel) vueGrille, BorderLayout.CENTER);
 
-        prochPieceGrille = new VueProchainePiece(grid);
+        prochPieceGrille = new VueProchainePiece(grille);
 
-        //ajout score + next piece
+        //ajout score + prochaine piece
         JPanel AdroiteGrille = new JPanel(new BorderLayout());
         JPanel prochainePieceVue = new JPanel(new BorderLayout());
         AdroiteGrille.setBackground(Color.darkGray);
@@ -93,20 +93,20 @@ public class VC extends JFrame implements Observer {
         //ajout grille + score au centre de mon panel principal
        mainPanel.add(centre, BorderLayout.EAST);
 
-        //Add buttons
+        //Ajout boutons
 
-        startButton= new JButton("Start");
-        pauseButton= new JButton("Pause");
-        quitButton= new JButton ("Quit");
+        BoutonDemarrer= new JButton("Demarrer");
+        BoutonPause= new JButton("Pause");
+        BoutonQuitter= new JButton ("Quitter");
 
-        startButton.setFocusTraversalKeysEnabled(false);
-        pauseButton.setFocusTraversalKeysEnabled(false);
-        quitButton.setFocusTraversalKeysEnabled(false);
+        BoutonDemarrer.setFocusTraversalKeysEnabled(false);
+        BoutonPause.setFocusTraversalKeysEnabled(false);
+        BoutonQuitter.setFocusTraversalKeysEnabled(false);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.add(startButton);
-        buttonPanel.add(pauseButton);
-        buttonPanel.add(quitButton);
+        buttonPanel.add(BoutonDemarrer);
+        buttonPanel.add(BoutonPause);
+        buttonPanel.add(BoutonQuitter);
 
 
         mainPanel.add(buttonPanel,BorderLayout.SOUTH);
@@ -121,45 +121,39 @@ public class VC extends JFrame implements Observer {
 
 
 
-        startButton.addActionListener(new ActionListener() {
+        BoutonDemarrer.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!gameStarted) {
-                   //grid.remplir_Grille();
+                if (!jeuCommencé) {
+                    grille.remplir_Grille();
                     lastTime = 0; // Reset time when the game starts
-                    grid.attribute_piecetype();
-                    gridView.update(null, null);
+                    grille.attribute_piecetype();
+                    vueGrille.update(null, null);
                     prochPieceGrille.update(null, null);
-                    gameStarted = true;
-                    startButton.setEnabled(false);
-                } else {
-                    //grid.remplir_Grille();
-                   // grid.attribute_piecetype();
-                    gridView.update(null, null);
-                    prochPieceGrille.update(null, null);
-
+                    jeuCommencé = true;
+                    BoutonDemarrer.setEnabled(false);
                 }
 
             }
         });
 
-        pauseButton.addActionListener(new ActionListener() {
+        BoutonPause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(gameStarted){
-                    grid.setPaused(!grid.isPaused());
-                    if(grid.isPaused()){
-                        pauseButton.setText("Resume");
+                if(jeuCommencé){
+                    grille.setPaused(!grille.isPaused());
+                    if(grille.isPaused()){
+                        BoutonPause.setText("Continuer");
                     }
                     else{
-                        pauseButton.setText("Pause");
+                        BoutonPause.setText("Pause");
                     }
                 }
             }
         });
 
-        quitButton.addActionListener(new ActionListener() {
+        BoutonQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                reset();
@@ -169,10 +163,10 @@ public class VC extends JFrame implements Observer {
     }
 
     public void Perdu() {
-        if (grid.getPerdu() && !fenetrePerdu) {
+        if (grille.getPerdu() && !fenetrePerdu) {
             fenetrePerdu = true;
-            grid.setPerdu(false);
-            JOptionPane.showMessageDialog(this, "¨Perdu!", "Perdu!", JOptionPane.INFORMATION_MESSAGE);
+            grille.setPerdu(false);
+            JOptionPane.showMessageDialog(this, "¨Perdu!", "Fin de la partie", JOptionPane.INFORMATION_MESSAGE);
             reset();
             fenetrePerdu = false;
 
@@ -189,7 +183,7 @@ public class VC extends JFrame implements Observer {
         Action rotateAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grid.getcurrentPiece().rotation();
+                grille.getcurrentPiece().rotation();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "rotate");
@@ -198,7 +192,7 @@ public class VC extends JFrame implements Observer {
         Action moveLeftAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grid.getcurrentPiece().move_left();
+                grille.getcurrentPiece().move_left();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveLeft");
@@ -207,7 +201,7 @@ public class VC extends JFrame implements Observer {
         Action moveRightAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grid.getcurrentPiece().move_right();
+                grille.getcurrentPiece().move_right();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveRight");
@@ -216,7 +210,7 @@ public class VC extends JFrame implements Observer {
         Action moveDownAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grid.getcurrentPiece().move_down();
+                grille.getcurrentPiece().move_down();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "moveDown");
@@ -228,19 +222,19 @@ public class VC extends JFrame implements Observer {
             @Override
             public void run() {
 
-                gameStarted=false;
+                jeuCommencé=false;
                //fenetrePerdu = false;
 
-                grid.setPaused(false);
-                pauseButton.setText("Pause");
-                grid.remplir_Grille();
-                grid.setCurrentPiece(grid.getProchainePiecePiece());
-                grid.resetgrid();
-               // grid.attribute_piecetype();
-                grid.setPerdu(false);
-                gridView.update(null, null);
+                grille.setPaused(false);
+                BoutonPause.setText("Pause");
+                grille.remplir_Grille();
+                grille.setCurrentPiece(grille.getProchainePiecePiece());
+                grille.resetgrid();
+               // grille.attribute_piecetype();
+                grille.setPerdu(false);
+                vueGrille.update(null, null);
                 prochPieceGrille.update(null, null);
-                startButton.setEnabled(true);
+                BoutonDemarrer.setEnabled(true);
             }
         });
     }
@@ -255,20 +249,20 @@ public class VC extends JFrame implements Observer {
         SwingUtilities.invokeLater(new Runnable() {
             //@Override
             public void run() {
-                if (gameStarted) {
+                if (jeuCommencé) {
 
 
-                    gridView.update(o, arg);
+                    vueGrille.update(o, arg);
                     prochPieceGrille.update(null, null);
                     Perdu();
-                    gridView.update(o, arg);
+                    vueGrille.update(o, arg);
 
 
                     score.setText("<html><div style='text-align: center; font-size: 15;'> <font color=red> SCORE : " +
 
-                           + grid.get_score() +" </font> </div></html>");
+                           + grille.get_score() +" </font> </div></html>");
 
-                    if (!grid.isPaused()) {
+                    if (!grille.isPaused()) {
                         if (lastTime == 0) {
                             lastTime = System.currentTimeMillis();  // Set initial time when the game starts
                         }
@@ -276,6 +270,7 @@ public class VC extends JFrame implements Observer {
 
                     long elapsedTime = System.currentTimeMillis() - lastTime;
                     temps.setText("Elapsed time : " + elapsedTime + "ms  ");
+
 
                 }
             }
