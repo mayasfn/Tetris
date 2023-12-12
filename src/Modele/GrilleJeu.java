@@ -273,9 +273,6 @@ public class GrilleJeu extends Observable implements Runnable {
     public Piece getProchainePiecePiece() {
         return prochainePiece;
     }
-    public void setProchainePiece(Piece _Piece) {
-        this.prochainePiece = _Piece;
-    }
 
 
     public Couleur getGrille_couleur(int i, int j) {
