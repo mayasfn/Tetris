@@ -211,7 +211,7 @@ public class VC extends JFrame implements Observer {
                 gameStarted=false;
                 grid.setPaused(false);
                 pauseButton.setText("Pause");
-                grid.remplir_Grille();
+                //grid.remplir_Grille();
                 //grid.setCurrentPiece(grid.getProchainePiecePiece());
                 grid.resetgrid();
                // grid.attribute_piecetype();

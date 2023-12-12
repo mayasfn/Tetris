@@ -42,7 +42,7 @@ public class SimpleGrid extends Observable implements Runnable {
         this.prochainePiece = piece_types[randompiece];
 
         remplir_Grille();
-        //attribute_piecetype();
+        attribute_piecetype();
         new OrdonnanceurSimple(this).start();
     }
 
