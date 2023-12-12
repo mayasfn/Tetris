@@ -22,7 +22,6 @@ public class Piece implements Runnable {
     }
 
     public void run() {
-        System.out.println("pos" + x + " "+ y);
         int nextY = this.y;
         int nextX = this.x;
 
@@ -32,7 +31,6 @@ public class Piece implements Runnable {
             this.y = nextY;
             this.x = nextX;
 
-            System.out.println("pos x " + x + " y "+ y);
         } else {
             grid.fige_piece();
             grid.ligne_complete();

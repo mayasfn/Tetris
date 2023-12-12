@@ -17,6 +17,8 @@ public class VC extends JFrame implements Observer {
     boolean gameStarted = false;
 
 
+    JLabel temps = new JLabel("Elapsed time : 0 ms");
+
     JLabel titre = new JLabel("<html><div style='text-align: center; font-size: 30;'>" +
             "<font color='#FF0000'>T</font>" + // Red
             "<font color='#FFC0CB'>E</font>" + // Pink
@@ -53,7 +55,12 @@ public class VC extends JFrame implements Observer {
         JPanel titre_centre = new JPanel(new FlowLayout(FlowLayout.CENTER));  // Set FlowLayout.CENTER here
         titre_centre.setBackground(Color.darkGray);
         titre_centre.add(titre);
-        mainPanel.add(titre_centre, BorderLayout.NORTH);
+
+        //temps + titre
+        JPanel North = new JPanel(new BorderLayout());
+        North.add(temps, BorderLayout.NORTH);
+        North.add(titre_centre, BorderLayout.CENTER);
+        mainPanel.add(North, BorderLayout.NORTH);
 
 
         //panel pour la prochaine pièce et le score
@@ -121,6 +128,7 @@ public class VC extends JFrame implements Observer {
             public void actionPerformed(ActionEvent e) {
                 if (!gameStarted) {
                    //grid.remplir_Grille();
+                    lastTime = 0; // Reset time when the game starts
                     grid.attribute_piecetype();
                     gridView.update(null, null);
                     prochPieceGrille.update(null, null);
@@ -211,8 +219,8 @@ public class VC extends JFrame implements Observer {
                 gameStarted=false;
                 grid.setPaused(false);
                 pauseButton.setText("Pause");
-                //grid.remplir_Grille();
-                //grid.setCurrentPiece(grid.getProchainePiecePiece());
+                grid.remplir_Grille();
+                grid.setCurrentPiece(grid.getProchainePiecePiece());
                 grid.resetgrid();
                // grid.attribute_piecetype();
                 gridView.update(null, null);
@@ -233,6 +241,7 @@ public class VC extends JFrame implements Observer {
             //@Override
             public void run() {
                 if (gameStarted) {
+
                     gridView.update(o, arg);
                     prochPieceGrille.update(null, null);
 
@@ -240,6 +249,14 @@ public class VC extends JFrame implements Observer {
 
                            + grid.get_score() +" </font> </div></html>");
 
+                    if (!grid.isPaused()) {
+                        if (lastTime == 0) {
+                            lastTime = System.currentTimeMillis();  // Set initial time when the game starts
+                        }
+                    }
+
+                    long elapsedTime = System.currentTimeMillis() - lastTime;
+                    temps.setText("Elapsed time : " + elapsedTime + "ms  ");
 
                 }
             }

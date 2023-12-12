@@ -40,7 +40,6 @@ public class SimpleGrid extends Observable implements Runnable {
         Random random = new Random();
         int randompiece = random.nextInt(7);
         this.prochainePiece = piece_types[randompiece];
-
         remplir_Grille();
         attribute_piecetype();
         new OrdonnanceurSimple(this).start();
@@ -66,8 +65,6 @@ public class SimpleGrid extends Observable implements Runnable {
         Random random = new Random();
         int randompiece = random.nextInt(7);
         this.prochainePiece = piece_types[randompiece];
-
-        //Set the current piece as the shape chosen
 
     }
 
