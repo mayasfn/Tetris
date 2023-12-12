@@ -224,12 +224,11 @@ public class VC extends JFrame implements Observer {
 
                 jeuCommencé=false;
                //fenetrePerdu = false;
-
                 grille.setPaused(false);
                 BoutonPause.setText("Pause");
                 grille.remplir_Grille();
-                grille.setPieceCourante(grille.getProchainePiecePiece());
-                grille.resetgrid();
+               // grille.setPieceCourante(grille.getProchainePiecePiece());
+                //grille.resetgrid();
                // grille.attribute_piecetype();
                 grille.setPerdu(false);
                 vueGrille.update(null, null);
@@ -270,6 +269,7 @@ public class VC extends JFrame implements Observer {
 
                     long elapsedTime = System.currentTimeMillis() - lastTime;
                     temps.setText("Elapsed time : " + elapsedTime + "ms  ");
+
 
 
                 }

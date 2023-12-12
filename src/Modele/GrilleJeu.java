@@ -250,6 +250,12 @@ public class GrilleJeu extends Observable implements Runnable {
         //this.prochainePiece.setY(-5);
         attribuer_piecetype();
     }
+
+    public void resetProchainePiece() {
+        Random random = new Random();
+        int randompiece = random.nextInt(7);
+        this.prochainePiece = piece_types[randompiece];
+    }
     public void setPieceCourante(Piece _currentPiece) {
         this.PieceCourante = _currentPiece;
     }
@@ -267,6 +273,10 @@ public class GrilleJeu extends Observable implements Runnable {
     public Piece getProchainePiecePiece() {
         return prochainePiece;
     }
+    public void setProchainePiece(Piece _Piece) {
+        this.prochainePiece = _Piece;
+    }
+
 
     public Couleur getGrille_couleur(int i, int j) {
         return this.grille_couleur[i][j];
