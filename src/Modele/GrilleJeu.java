@@ -98,7 +98,7 @@ public class GrilleJeu extends Observable implements Runnable {
         for (int i = 0; i < 4 ; i++) {
             if (!position_valideX || !position_valideY) break;
             for (int j = 0; j < 4; j++) {
-                if (PieceCourante.shape[i][j]) {
+                if (PieceCourante.forme[i][j]) {
                     positionX_absolu = _nextX +i;
                     positionY_absolu = _nextY + j;
                     if (positionY_absolu >= TAILLE) position_valideY = false;
@@ -108,7 +108,7 @@ public class GrilleJeu extends Observable implements Runnable {
             }
         }
 
-        return (position_valideX && position_valideY && !verifieCollision(_nextX,_nextY, PieceCourante.getShape()))  ;
+        return (position_valideX && position_valideY && !verifieCollision(_nextX,_nextY, PieceCourante.getForme()))  ;
     }
 
 
@@ -155,7 +155,7 @@ public class GrilleJeu extends Observable implements Runnable {
             for (int j=0; j<4; j++) {
                 int Xabsolu = PieceCourante.getx() +i;
                 int Yabsolu = PieceCourante.gety() + j;
-                 if (Xabsolu >=0 && Xabsolu <= TAILLE && Yabsolu <= TAILLE && PieceCourante.shape[i][j]) grille_couleur[Xabsolu][Yabsolu] = PieceCourante.getCouleur();
+                 if (Xabsolu >=0 && Xabsolu <= TAILLE && Yabsolu <= TAILLE && PieceCourante.forme[i][j]) grille_couleur[Xabsolu][Yabsolu] = PieceCourante.getCouleur();
             }
         }
 

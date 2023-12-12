@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Piece implements Runnable {
 
-    protected boolean [][] shape;
+    protected boolean [][] forme;
     private int x = 8;
     private int y = -5;
     private int dY = 1;
@@ -13,7 +13,7 @@ public class Piece implements Runnable {
 
     public Piece(GrilleJeu _grid, boolean [][] _shape,Couleur _color) {
         grille= _grid;
-        shape = _shape;
+        forme = _shape;
         couleur = _color;
     }
 
@@ -40,7 +40,7 @@ public class Piece implements Runnable {
     }
 
 
-    public void move_right() {
+    public void bougeAdroite() {
 
         int nextX = this.x;
         nextX += 1;
@@ -50,7 +50,7 @@ public class Piece implements Runnable {
         }
     }
 
-    public void move_left() {
+    public void bougeAgauche() {
 
         int nextX = this.x;
         nextX -= 1;
@@ -75,10 +75,10 @@ public class Piece implements Runnable {
         boolean nouvelle_piece[][]= new boolean [4][4];
         for (int i=0; i<4; i++) {
             for (int j=0; j<4; j++) {
-                nouvelle_piece[i][j]=shape[4 - 1 -j][i];
+                nouvelle_piece[i][j]=forme[4 - 1 -j][i];
             }
         }
-        if (grille.validationPositionRotation(this.x, this.y, nouvelle_piece)) shape = nouvelle_piece;
+        if (grille.validationPositionRotation(this.x, this.y, nouvelle_piece)) forme = nouvelle_piece;
 
     }
 
@@ -107,8 +107,8 @@ public class Piece implements Runnable {
     }
 
 
-    public boolean[][] getShape() {
-        return shape;
+    public boolean[][] getForme() {
+        return forme;
     }
 
 }

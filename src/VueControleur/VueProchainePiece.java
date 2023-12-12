@@ -59,7 +59,7 @@ class VueProchainePiece extends JPanel implements Observer {
                 if (grille.getProchainePiecePiece().getCouleur()== Couleur.YELLOW) g.setColor(Color.YELLOW);
                 for (int i=0; i<4; i++) {
                     for (int j=0; j<4; j++) {
-                        if (grille.getProchainePiecePiece().getShape()[i][j])
+                        if (grille.getProchainePiecePiece().getForme()[i][j])
 
                             g.fillRect((i) * TAILLE, (j) * TAILLE, TAILLE, TAILLE);
                     }

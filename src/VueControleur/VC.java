@@ -192,7 +192,7 @@ public class VC extends JFrame implements Observer {
         Action moveLeftAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grille.getPieceCourante().move_left();
+                grille.getPieceCourante().bougeAgauche();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveLeft");
@@ -201,7 +201,7 @@ public class VC extends JFrame implements Observer {
         Action moveRightAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                grille.getPieceCourante().move_right();
+                grille.getPieceCourante().bougeAdroite();
             }
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveRight");

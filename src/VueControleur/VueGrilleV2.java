@@ -72,7 +72,7 @@ class VueGrilleV2 extends JPanel implements Observer {
                 if (grille.getPieceCourante().getCouleur()== Couleur.YELLOW) g.setColor(Color.YELLOW);
                 for (int i=0; i<4; i++) {
                     for (int j=0; j<4; j++) {
-                        if (grille.getPieceCourante().getShape()[i][j])
+                        if (grille.getPieceCourante().getForme()[i][j])
 
                             g.fillRect((grille.getPieceCourante().getx() +i + extra_x) * TAILLE, (grille.getPieceCourante().gety()+j+ extra_y) * TAILLE, TAILLE, TAILLE);
                     }
