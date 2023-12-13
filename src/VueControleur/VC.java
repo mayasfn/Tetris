@@ -97,7 +97,7 @@ public class VC extends JFrame implements Observer {
 
         BoutonDemarrer= new JButton("Demarrer");
         BoutonPause= new JButton("Pause");
-        BoutonQuitter= new JButton ("Quitter");
+        BoutonQuitter= new JButton ("Arreter");
 
         BoutonDemarrer.setFocusTraversalKeysEnabled(false);
         BoutonPause.setFocusTraversalKeysEnabled(false);
@@ -223,7 +223,7 @@ public class VC extends JFrame implements Observer {
             public void run() {
 
                 jeuCommencé=false;
-               //fenetrePerdu = false;
+               fenetrePerdu = false;
                 grille.setPaused(false);
                 BoutonPause.setText("Pause");
                 grille.remplir_Grille();

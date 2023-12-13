@@ -78,6 +78,7 @@ public class GrilleJeu extends Observable implements Runnable {
                     // Check if the cell is already occupied by another piece
                     if (gridY >= 0 && gridY < TAILLE && gridX >= 0 && gridX < TAILLE) {
                         if (grille_couleur[gridX][gridY] != Couleur.VIDE) {
+                            //fige_piece();
                             return true; // Collision with an existing piece
                         }
                     }
@@ -156,13 +157,14 @@ public class GrilleJeu extends Observable implements Runnable {
                 int Xabsolu = PieceCourante.getx() +i;
                 int Yabsolu = PieceCourante.gety() + j;
                  if (Xabsolu >=0 && Xabsolu <= TAILLE && Yabsolu <= TAILLE && PieceCourante.forme[i][j]) grille_couleur[Xabsolu][Yabsolu] = PieceCourante.getCouleur();
+                if (Yabsolu <= 0) {
+                    perdu = true;
+                    return;  // No need to continue checking, game over condition is met
+                }
             }
         }
 
-        if (PieceCourante.gety() <= 0)
-        {
-            perdu = true;
-        } else   attribuer_piecetype();
+        attribuer_piecetype();
 
 
 

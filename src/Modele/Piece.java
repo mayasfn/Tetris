@@ -21,6 +21,7 @@ public class Piece implements Runnable {
         dY *= -1;
     }
 
+
     public void run() {
         int nextY = this.y;
         int nextX = this.x;
@@ -38,6 +39,8 @@ public class Piece implements Runnable {
         }
 
     }
+
+
 
 
     public void bougeAdroite() {
