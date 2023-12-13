@@ -120,14 +120,13 @@ public class VC extends JFrame implements Observer {
         registerKeyBindings();
 
 
-
         BoutonDemarrer.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!jeuCommencé) {
                     grille.remplir_Grille();
-                    lastTime = 0; // Reset time when the game starts
+                    lastTime = 0; // Recommence temps à 0
                     grille.attribuer_piecetype();
                     vueGrille.update(null, null);
                     prochPieceGrille.update(null, null);
@@ -139,14 +138,21 @@ public class VC extends JFrame implements Observer {
         });
 
         BoutonPause.addActionListener(new ActionListener() {
+            long pausedTime;
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(jeuCommencé){
+                if (jeuCommencé) {
                     grille.setPaused(!grille.isPaused());
-                    if(grille.isPaused()){
+
+                    if (grille.isPaused()) {
+                        // sauvegarder le temps en pause
+                        pausedTime = System.currentTimeMillis();
                         BoutonPause.setText("Continuer");
-                    }
-                    else{
+                    } else {
+                        // recommencer le temps au bon moment par rapport au temps passé en pause
+                        lastTime += System.currentTimeMillis() - pausedTime;
+                        pausedTime = 0;
                         BoutonPause.setText("Pause");
                     }
                 }
@@ -156,7 +162,7 @@ public class VC extends JFrame implements Observer {
         BoutonQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               reset();
+                reset();
             }
         });
 
@@ -179,7 +185,7 @@ public class VC extends JFrame implements Observer {
         InputMap inputMap = mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = mainPanel.getActionMap();
 
-        // Define and register actions for key events
+        // actions pour evenements claviers
         Action rotateAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -240,43 +246,36 @@ public class VC extends JFrame implements Observer {
 
 
 
-    static long lastTime = System.currentTimeMillis();
+static long lastTime = System.currentTimeMillis();
+    long elapsedseconds;
 
     @Override
-    public void update(Observable o, Object arg) { // rafraichissement de la vue
-
+    public void update(Observable o, Object arg) {
         SwingUtilities.invokeLater(new Runnable() {
             //@Override
             public void run() {
                 if (jeuCommencé) {
-
-
                     vueGrille.update(o, arg);
                     prochPieceGrille.update(null, null);
                     Perdu();
-                    vueGrille.update(o, arg);
-
-
-                    score.setText("<html><div style='text-align: center; font-size: 15;'> <font color=red> SCORE : " +
-
-                           + grille.get_score() +" </font> </div></html>");
 
                     if (!grille.isPaused()) {
                         if (lastTime == 0) {
-                            lastTime = System.currentTimeMillis();  // Set initial time when the game starts
+                            lastTime = System.currentTimeMillis();  // temps de debut du jeu
+                        } else {
+                            long currentTime = System.currentTimeMillis();
+                            long elapsedTime = currentTime - lastTime;
+                            long elapsedSeconds = elapsedTime / 1000;  // Convertir millisecondes en secondes
+                            temps.setText("Elapsed time : " + elapsedSeconds + "s  ");
                         }
                     }
 
-                    long elapsedTime = System.currentTimeMillis() - lastTime;
-                    temps.setText("Elapsed time : " + elapsedTime + "ms  ");
-
-
-
+                    vueGrille.update(o, arg);
                 }
             }
         });
-
     }
+
 
     public static void main(String[] args) {
 
