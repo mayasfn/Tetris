@@ -17,9 +17,6 @@ public class Piece implements Runnable {
         couleur = _color;
     }
 
-    public void action() {
-        dY *= -1;
-    }
 
 
     public void run() {

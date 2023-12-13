@@ -2,7 +2,6 @@ package Modele;
 
 import java.util.Observable;
 import java.util.Random;
-
 import VueControleur.Sound;
 
 
@@ -21,7 +20,7 @@ public class GrilleJeu extends Observable implements Runnable {
 
     public GrilleJeu() {
         String projectRoot = System.getProperty("user.dir");
-        deletelineSound = new Sound("/Users/janeaziz/Documents/L3/LIFAPOO/tetris2/tetris/src/VueControleur/Sons/clear.wav");
+        deletelineSound = new Sound(projectRoot+ "/src/VueControleur/Sons/clear.wav");
 
         //Fill in our Piece array with each type of piece we have
         piece_types [0] = new IPiece(this);
@@ -62,31 +61,26 @@ public class GrilleJeu extends Observable implements Runnable {
 
     }
 
-    public void action() {
-        //currentPiece.action();
 
-
-    }
 
     public boolean verifieCollision(int _nextX, int _nextY, boolean tab[][]) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (tab[i][j]) {
-                    int gridX = _nextX + i;
-                    int gridY = _nextY + j;
+                    int gridX = _nextX + i; // x absolu de la pièce
+                    int gridY = _nextY + j; // y absolu de la pièce
 
-                    // Check if the cell is already occupied by another piece
+                    // Verifie si la cellule est occupé
                     if (gridY >= 0 && gridY < TAILLE && gridX >= 0 && gridX < TAILLE) {
                         if (grille_couleur[gridX][gridY] != Couleur.VIDE) {
-                            //fige_piece();
-                            return true; // Collision with an existing piece
+                            return true; // Collision avec une pièce existante
                         }
                     }
 
                 }
             }
         }
-        return false; // No collision detected
+        return false; //Pas de collision
     }
 
 
@@ -163,15 +157,10 @@ public class GrilleJeu extends Observable implements Runnable {
                 }
             }
         }
-
         attribuer_piecetype();
-
-
-
     }
 
     public void  ligne_complete() {
-        // int nombreligne = 0;
         int complete = 0;
         boolean ligneComplete = false;
         do {
@@ -187,17 +176,16 @@ public class GrilleJeu extends Observable implements Runnable {
                 }
 
                 if (verifieCase) {
-                    //nombreligne++;
                     ligneComplete = true;
                     complete++;
 
-                    // Clear the completed line
+                    // Enleve la ligne complète
                     for (int j = 0; j < TAILLE; j++) {
                         this.grille_couleur[j][i] = Couleur.VIDE;
                     }
 
 
-                    // Shift down the pieces above the completed line
+                    // Faire descendre les pieces d'une ligne
                     for (int k = i; k > 0; k--) {
                         for (int j = 0; j < TAILLE; j++) {
                             this.grille_couleur[j][k] = this.grille_couleur[j][k - 1];
@@ -248,8 +236,6 @@ public class GrilleJeu extends Observable implements Runnable {
         Random random = new Random();
         int randompiece = random.nextInt(7);
         this.prochainePiece = piece_types[randompiece];
-        //this.prochainePiece.setX(8);
-        //this.prochainePiece.setY(-5);
         attribuer_piecetype();
     }
 
@@ -277,11 +263,13 @@ public class GrilleJeu extends Observable implements Runnable {
     }
 
 
+    public void setScore(int _score) {
+        this.score = _score;
+    }
+
     public Couleur getGrille_couleur(int i, int j) {
         return this.grille_couleur[i][j];
     }
-
-
 
     public boolean isPaused() {
         return paused;

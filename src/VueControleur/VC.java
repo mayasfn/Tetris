@@ -18,13 +18,10 @@ import javax.swing.JOptionPane;
 
 public class VC extends JFrame implements Observer {
     boolean jeuCommencé = false;
-    //String projectRoot = System.getProperty("user.dir");
-    String sond_defondPath = "/Users/janeaziz/Documents/L3/LIFAPOO/tetris2/tetris/src/VueControleur/Sons/fullgame.wav" ;
-
-     private Sound sonjeu ;
-
-    JLabel temps = new JLabel("Elapsed time : 0 ms");
-
+    String projectRoot = System.getProperty("user.dir");
+    public String sond_defondPath= projectRoot+"/src/VueControleur/Sons/fullgame.wav";
+    private Sound sonjeu ;
+    JLabel temps = new JLabel("Elapsed time : 0 s");
     JLabel titre = new JLabel("<html><div style='text-align: center; font-size: 30;'>" +
             "<font color='#FF0000'>T</font>" + // Red
             "<font color='#FFC0CB'>E</font>" + // Pink
@@ -37,9 +34,7 @@ public class VC extends JFrame implements Observer {
     JLabel score = new JLabel("<html><div style='text-align: center; font-size: 15; '>  <font color=red> SCORE : 0 </font> </div></html>");
 
     JLabel prochainePiece = new JLabel("<html><div style='text-align: center; font-size: 15; '> <font color=red> Prochaine piece:  </font></div></html>");
-
     GrilleJeu grille;
-
     Observer vueGrille;
     Observer prochPieceGrille;
     private Executor ex =  Executors.newSingleThreadExecutor();
@@ -49,7 +44,6 @@ public class VC extends JFrame implements Observer {
     private boolean fenetrePerdu = false;
 
 
-
     public VC(GrilleJeu _modele) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         grille = _modele;
@@ -57,15 +51,8 @@ public class VC extends JFrame implements Observer {
         setSize(700, 600);
         setResizable(false);
         mainPanel.setBackground(Color.darkGray);
-        //String projectRoot = System.getProperty("user.dir");
-        //String sond_defondPath = projectRoot + "/src/VueControleur/Sons/fullgame.wav";
-        //son de fond
-        //son_jeu= new Sound(sond_defondPath);
 
-        //String projectRoot = System.getProperty("user.dir");
-        //File sonDefondFile = new File(projectRoot, "/src/VueControleur/Sons/fullgame.wav");
-        //String sonDefondPath = sonDefondFile.getAbsolutePath();
-// Son de fond
+        // Son de fond
          sonjeu = new Sound(sond_defondPath);
          sonjeu.son_de_fond(sond_defondPath);
 
@@ -182,6 +169,7 @@ public class VC extends JFrame implements Observer {
         BoutonQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                grille.setScore(0);3
                 reset();
             }
         });
@@ -200,6 +188,7 @@ public class VC extends JFrame implements Observer {
         }
 
     }
+
 
     private void registerKeyBindings() {
         InputMap inputMap = mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -247,6 +236,7 @@ public class VC extends JFrame implements Observer {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                grille.setScore(0);
 
                 jeuCommencé=false;
                fenetrePerdu = false;
@@ -279,6 +269,10 @@ static long lastTime = System.currentTimeMillis();
                     vueGrille.update(o, arg);
                     prochPieceGrille.update(null, null);
                     Perdu();
+                    score.setText("<html><div style='text-align: center; font-size: 15;'> <font color=red> SCORE : " +
+
+                            + grille.get_score() +" </font> </div></html>");
+
 
                     if (!grille.isPaused()) {
                         if (lastTime == 0) {

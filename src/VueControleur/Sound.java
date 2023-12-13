@@ -11,10 +11,14 @@ public class Sound {
     private boolean son_clear = false;
     private boolean son_jeu = false;
 
-    //String projectRoot = System.getProperty("user.dir");
+    String projectRoot = System.getProperty("user.dir");
 
-    public String filePath ="/Users/janeaziz/Documents/L3/LIFAPOO/tetris2/tetris/src/VueControleur/Sons/clear.wav";
-    public String filepath2 = "/Users/janeaziz/Documents/L3/LIFAPOO/tetris2/tetris/src/VueControleur/Sons/fullgame.wav";
+    public String filePath= projectRoot+"/src/VueControleur/Sons/clear.wav";
+
+
+
+    public String filePath2= projectRoot+"/src/VueControleur/Sons/fullgame.wav";
+
 
     public Sound(String filePath) {
         try {
