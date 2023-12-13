@@ -2,6 +2,7 @@ package VueControleur;
 
 import Modele.Couleur;
 import Modele.GrilleJeu;
+import VueControleur.Sound;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +11,17 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.util.Observable;
 import java.util.Observer;
+import java.io.File;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import javax.swing.JOptionPane;
 
 public class VC extends JFrame implements Observer {
     boolean jeuCommencé = false;
+    //String projectRoot = System.getProperty("user.dir");
+    String sond_defondPath = "/Users/janeaziz/Documents/L3/LIFAPOO/tetris2/tetris/src/VueControleur/Sons/fullgame.wav" ;
+
+     private Sound sonjeu ;
 
     JLabel temps = new JLabel("Elapsed time : 0 ms");
 
@@ -51,6 +57,18 @@ public class VC extends JFrame implements Observer {
         setSize(700, 600);
         setResizable(false);
         mainPanel.setBackground(Color.darkGray);
+        //String projectRoot = System.getProperty("user.dir");
+        //String sond_defondPath = projectRoot + "/src/VueControleur/Sons/fullgame.wav";
+        //son de fond
+        //son_jeu= new Sound(sond_defondPath);
+
+        //String projectRoot = System.getProperty("user.dir");
+        //File sonDefondFile = new File(projectRoot, "/src/VueControleur/Sons/fullgame.wav");
+        //String sonDefondPath = sonDefondFile.getAbsolutePath();
+// Son de fond
+         sonjeu = new Sound(sond_defondPath);
+         sonjeu.son_de_fond(sond_defondPath);
+
 
         // titre
         JPanel titre_centre = new JPanel(new FlowLayout(FlowLayout.CENTER));  // Set FlowLayout.CENTER here
@@ -132,6 +150,8 @@ public class VC extends JFrame implements Observer {
                     prochPieceGrille.update(null, null);
                     jeuCommencé = true;
                     BoutonDemarrer.setEnabled(false);
+                    sonjeu.jouer_boucle();
+
                 }
 
             }
@@ -240,6 +260,7 @@ public class VC extends JFrame implements Observer {
                 vueGrille.update(null, null);
                 prochPieceGrille.update(null, null);
                 BoutonDemarrer.setEnabled(true);
+                sonjeu.arreter_son2();
             }
         });
     }

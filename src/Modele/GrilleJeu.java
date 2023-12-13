@@ -21,7 +21,7 @@ public class GrilleJeu extends Observable implements Runnable {
 
     public GrilleJeu() {
         String projectRoot = System.getProperty("user.dir");
-        deletelineSound = new Sound(projectRoot+ "/src/VueControleur/clear.wav");
+        deletelineSound = new Sound("/Users/janeaziz/Documents/L3/LIFAPOO/tetris2/tetris/src/VueControleur/Sons/clear.wav");
 
         //Fill in our Piece array with each type of piece we have
         piece_types [0] = new IPiece(this);
